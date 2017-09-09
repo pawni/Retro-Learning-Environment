@@ -63,8 +63,27 @@ class PokemonSettings : public GameboySettings {
         virtual ActionVect getStartingActions();
 
     private:
-        int m_pokemons;
-        int m_trophies;
+        int m_pok1_8;
+	int m_pok9_16;
+	int m_pok17_24;
+	int m_pok25_32;
+	int m_pok33_40;
+	int m_pok41_48;
+	int m_pok49_56;
+	int m_pok57_64;
+	int m_pok65_72;
+	int m_pok73_80;
+	int m_pok81_88;
+	int m_pok89_96;
+	int m_pok97_104;
+	int m_pok105_112;
+	int m_pok113_120;
+	int m_pok121_128;
+	int m_pok129_136;
+	int m_pok137_144;
+	int m_pok145_152;
+
+        int m_badges;
 	int m_won_battles;
 };
 
