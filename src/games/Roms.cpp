@@ -91,6 +91,9 @@
 //#include "supported/YarsRevenge.hpp"
 //#include "supported/Zaxxon.hpp"
 
+// Gameboy
+#include "supported/Pokemon.hpp"
+
 using namespace rle;
 
 /* list of supported games */
@@ -181,7 +184,10 @@ static const RomSettings *roms[]  = {
 	new StreetFighterIISettings(),
 	new BustAMoveSettings(),
 //	Genesis games
-    new SonicTheHedgehogSettings()
+    new SonicTheHedgehogSettings(),
+// Gameboy
+	new PokemonSettings()
+
 };
 
 
