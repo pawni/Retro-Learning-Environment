@@ -32,7 +32,11 @@ GameboySettings::GameboySettings(){
 					if(left != 0 && right != 0) continue;
 					for(int ia(0), a(0); ia <= 1 ; ia++, a+=JOYPAD_A){
 						for(int ib(0), b(0); ib <= 1 ; ib++, b+=JOYPAD_B){
-							AllActionsVector.push_back(up | down | left | right | a | b);
+							for(int istart(0), sa(0); istart <= 1 ; istart++, sa+=JOYPAD_START){
+								for(int iselect(0), se(0); iselect <= 1 ; iselect++, se+=JOYPAD_SELECT){
+									AllActionsVector.push_back(up | down | left | right | a | b | sa |se);
+								}
+							}
 						}
 					}
 				}
