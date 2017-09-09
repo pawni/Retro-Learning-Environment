@@ -49,6 +49,8 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(SNES9X_DIR ${CMAKE_CURRENT_SOURCE_DIR}/snes9x2010)
 set(STELLA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/stella-libretro)
 set(GENESIS_PLUS_GX_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Genesis-Plus-GX)
+#set(MGBA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mgba)
+set(GAMBATTLE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gambattle)
 set(PYTHON_RLE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/rle_python_interface)
 set(MODULES common controllers environment games games/supported external external/TinyMT)
 
@@ -101,6 +103,12 @@ IF(INSTALL_CORES)
 	set(STELLA_INSTALL_COMMAND 
 		mv stella_libretro.so
 		${LIBDIR}/stella_libretro.so)
+        #set(MGBA_INSTALL_COMAND
+ 	#	mv mgba_libretro.so
+	#	${LIBDIR}/mgba_libretro.so)
+	set(GAMBATTLE_INSTALL_COMMAND
+		mv gambattle_libretro.so
+		${LIBDIR}/gambattle_libretro.so)
 	set(GENESIS_INSTALL_COMMAND 
 		mv genesis_plus_gx_libretro.so
 		${LIBDIR}/genesis_plus_gx_libretro.so)
@@ -108,6 +116,8 @@ ELSE()
 	set(SNES9X_INSTALL_COMMAND "")
 	set(STELLA_INSTALL_COMMAND "")
 	set(GENESIS_INSTALL_COMMAND "")
+	#set(MGBA_INSTALL_COMMAND "")
+	set(GAMBATTLE_INSTALL_COMMAND "")
 ENDIF()
 
 include(ExternalProject)
@@ -121,6 +131,25 @@ ExternalProject_add(snes9x2010_libretro
 			INSTALL_DIR ${LIBDIR}
 			INSTALL_COMMAND "${SNES9X_INSTALL_COMMAND}"
 		   )
+#ExternalProject_add(mgba_libretro
+#                        GIT_REPOSITORY https://github.com/libretro/mgba.git
+#                        UPDATE_COMMAND ""
+#                        SOURCE_DIR ${MGBA_DIR}
+#                        BUILD_IN_SOURCE 1
+#                        CONFIGURE_COMMAND  ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX:PATH=${LIBDIR}
+#                        BUILD_COMMAND ${MAKE}
+#                        INSTALL_DIR ${LIBDIR}
+#                        INSTALL_COMMAND "${MGBA_INSTALL_COMMAND}"
+#                   )
+ExternalProject_add(gambattle_libretro
+			GIT_REPOSITORY https://github.com/libretro/gambatte-libretro.git
+			BUILD_IN_SOURCE 1
+			SOURCE_DIR ${GAMBATTLE_DIR}
+			BUILD_COMMAND ${MAKE}
+			CONFIGURE_COMMAND ""
+			INSTALL_DIR ${LIBDIR}
+			INSTALL_COMMAND "${GAMBATTLE_INSTALL_COMMAND}"
+		)
 ExternalProject_add(stella_libretro
 			GIT_REPOSITORY https://github.com/libretro/stella-libretro.git
 			UPDATE_COMMAND ""
@@ -148,7 +177,9 @@ IF(BUILD_PYTHON)
 	INSTALL(DIRECTORY ${GENESIS_PLUS_GX_DIR} DESTINATION ${PYTHON_RLE_DIR}/stella_libretro.so
 		FILES_MATCHING PATTERN "*.so")
 	INSTALL(DIRECTORY ${STELLA_DIR} DESTINATION ${PYTHON_RLE_DIR}/genesis_plus_gx_libretro.so
-		FILES_MATCHING PATTERN "*.so")	
+		FILES_MATCHING PATTERN "*.so")
+	INSTALL(DIRECTORY ${MGBA_DIR} DESTINATION ${PYTHON_RLE_DIR}/mgba_libretro.so
+                FILES_MATCHING PATTERN "*.so")	
 ENDIF()
 
 add_library(rle-lib SHARED ${SOURCE_DIR}/rle_interface.cpp ${SOURCES})

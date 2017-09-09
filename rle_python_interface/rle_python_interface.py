@@ -117,7 +117,9 @@ class RLEInterface(object):
         _ROOT = os.path.abspath(os.path.dirname(__file__))
         if 'snes' == core:
             core_path = _ROOT + '/snes9x2010_libretro.so'
-        elif 'atari' == core:
+        elif 'gb' == core:
+            core_path = _ROOT + '/gambattle_libretro.so' 
+	elif 'atari' == core:
             core_path = _ROOT + '/stella_libretro.so'
         elif 'genesis' == core or 'game_gear' == core or 'sg1000' == core:
             core_path = _ROOT + '/genesis_plus_gx_libretro.so'
