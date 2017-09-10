@@ -16,6 +16,7 @@
 #include "../RomUtils.hpp"
 #include "RleSystem.hxx"
 #include "Pokemon.hpp"
+#include <iostream>
 
 using namespace rle;
 
@@ -48,9 +49,15 @@ RomSettings* PokemonSettings::clone() const {
 void PokemonSettings::step(const RleSystem& system) {
 	// update the reward
 	reward_t pok1_8 = readRam(&system, 0xd2f7);
+	// when choosing the stsrter pokemon it jumps to 0x4B (75) when viewing
+	// the detail screen. not sure why and whether this might be a problem
+	//std::cout << "pok1_8 " << pok1_8 << "\n";
 	reward_t pok9_16 = readRam(&system, 0xd2f8);
+	//std::cout << "pok9_16 " << pok9_16 << "\n";
 	reward_t pok17_24 = readRam(&system, 0xd2f9);
+	//std::cout << "pok17_24 " << pok17_24 << "\n";
 	reward_t pok25_32 = readRam(&system, 0xd2fa);
+	//std::cout << "pok25_32 " << pok25_32 << "\n";
 	reward_t pok33_40 = readRam(&system, 0xd2fb);
 	reward_t pok41_48 = readRam(&system, 0xd2fc);
 	reward_t pok49_56 = readRam(&system, 0xd2fd);
@@ -71,7 +78,10 @@ void PokemonSettings::step(const RleSystem& system) {
 
 	int new_pok = 0;
 	
-	new_pok = new_pok + std::bitset<8>((pok1_8 ^ m_pok1_8)).count();
+	if(!((pok1_8 == 75 && m_pok1_8 == 0) || (pok1_8 == 0 && m_pok1_8 == 75)))
+	{
+		new_pok = new_pok + std::bitset<8>((pok1_8 ^ m_pok1_8)).count();
+	}
 	new_pok = new_pok + std::bitset<8>((pok9_16 ^ m_pok9_16)).count();
 	new_pok = new_pok + std::bitset<8>((pok17_24 ^ m_pok17_24)).count();
 	new_pok = new_pok + std::bitset<8>((pok25_32 ^ m_pok25_32)).count();
@@ -293,4 +303,10 @@ ActionVect PokemonSettings::getStartingActions(){
 
 	return startingActions;
 }
+
+int PokemonSettings::readRam(const RleSystem* system, int offset){
+	return RomSettings::readRam(system, (offset - 0xC000 ));
+}
+
+
 
