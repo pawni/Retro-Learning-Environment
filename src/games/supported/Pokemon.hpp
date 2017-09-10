@@ -61,6 +61,7 @@ class PokemonSettings : public GameboySettings {
         virtual const int lives() { return 0; }
 
         virtual ActionVect getStartingActions();
+        int readRam(const RleSystem* system, int offset);
 
     private:
         int m_pok1_8;
