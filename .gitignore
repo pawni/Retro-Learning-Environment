@@ -3,6 +3,8 @@
 build
 doc/examples/*Example
 
+# gb
+*.gb
 
 # Emacs temp files
 *~
