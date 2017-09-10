@@ -118,7 +118,7 @@ class RLEInterface(object):
         if 'snes' == core:
             core_path = _ROOT + '/snes9x2010_libretro.so'
         elif 'gb' == core:
-            core_path = _ROOT + '/gambattle_libretro.so' 
+            core_path = _ROOT + '/mgba_libretro.so' # '/gambattle_libretro.so' 
 	elif 'atari' == core:
             core_path = _ROOT + '/stella_libretro.so'
         elif 'genesis' == core or 'game_gear' == core or 'sg1000' == core:
