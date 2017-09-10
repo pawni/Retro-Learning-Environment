@@ -49,8 +49,8 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(SNES9X_DIR ${CMAKE_CURRENT_SOURCE_DIR}/snes9x2010)
 set(STELLA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/stella-libretro)
 set(GENESIS_PLUS_GX_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Genesis-Plus-GX)
-#set(MGBA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mgba)
-set(GAMBATTLE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gambattle)
+set(MGBA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mgba)
+set(GAMBATTE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gambatte)
 set(PYTHON_RLE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/rle_python_interface)
 set(MODULES common controllers environment games games/supported external external/TinyMT)
 
@@ -103,12 +103,12 @@ IF(INSTALL_CORES)
 	set(STELLA_INSTALL_COMMAND 
 		mv stella_libretro.so
 		${LIBDIR}/stella_libretro.so)
-        #set(MGBA_INSTALL_COMAND
- 	#	mv mgba_libretro.so
-	#	${LIBDIR}/mgba_libretro.so)
-	set(GAMBATTLE_INSTALL_COMMAND
-		mv gambattle_libretro.so
-		${LIBDIR}/gambattle_libretro.so)
+        set(MGBA_INSTALL_COMAND
+ 		mv mgba_libretro.so
+		${LIBDIR}/mgba_libretro.so)
+	set(GAMBATTE_INSTALL_COMMAND
+		mv gambatte_libretro.so
+		${LIBDIR}/gambatte_libretro.so)
 	set(GENESIS_INSTALL_COMMAND 
 		mv genesis_plus_gx_libretro.so
 		${LIBDIR}/genesis_plus_gx_libretro.so)
@@ -116,7 +116,7 @@ ELSE()
 	set(SNES9X_INSTALL_COMMAND "")
 	set(STELLA_INSTALL_COMMAND "")
 	set(GENESIS_INSTALL_COMMAND "")
-	#set(MGBA_INSTALL_COMMAND "")
+	set(MGBA_INSTALL_COMMAND "")
 	set(GAMBATTLE_INSTALL_COMMAND "")
 ENDIF()
 
@@ -131,24 +131,28 @@ ExternalProject_add(snes9x2010_libretro
 			INSTALL_DIR ${LIBDIR}
 			INSTALL_COMMAND "${SNES9X_INSTALL_COMMAND}"
 		   )
-#ExternalProject_add(mgba_libretro
-#                        GIT_REPOSITORY https://github.com/libretro/mgba.git
-#                        UPDATE_COMMAND ""
-#                        SOURCE_DIR ${MGBA_DIR}
-#                        BUILD_IN_SOURCE 1
-#                        CONFIGURE_COMMAND  ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX:PATH=${LIBDIR}
-#                        BUILD_COMMAND ${MAKE}
-#                        INSTALL_DIR ${LIBDIR}
-#                        INSTALL_COMMAND "${MGBA_INSTALL_COMMAND}"
-#                   )
-ExternalProject_add(gambattle_libretro
+ExternalProject_add(mgba_libretro
+			DOWNLOAD_DIR ${MGBA_DIR}
+                        GIT_REPOSITORY https://github.com/pawni/mgba.git
+                        UPDATE_COMMAND ""
+			GIT_TAG "rle" 
+                        SOURCE_DIR ${MGBA_DIR}
+                        BUILD_IN_SOURCE 1
+			#BINARY_DIR ${MGBA_DIR}
+                        #CONFIGURE_COMMAND  ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX:PATH=${LIBDIR} -DBUILD_LIBRETRO=ON
+                        CMAKE_ARGS -DBUILD_LIBRETRO=ON
+			BUILD_COMMAND ${MAKE}
+                        INSTALL_DIR ${LIBDIR}
+                        INSTALL_COMMAND "${MGBA_INSTALL_COMMAND}"
+                   )
+ExternalProject_add(gambatte_libretro
 			GIT_REPOSITORY https://github.com/libretro/gambatte-libretro.git
 			BUILD_IN_SOURCE 1
-			SOURCE_DIR ${GAMBATTLE_DIR}
+			SOURCE_DIR ${GAMBATTE_DIR}
 			BUILD_COMMAND ${MAKE}
 			CONFIGURE_COMMAND ""
 			INSTALL_DIR ${LIBDIR}
-			INSTALL_COMMAND "${GAMBATTLE_INSTALL_COMMAND}"
+			INSTALL_COMMAND "${GAMBATTE_INSTALL_COMMAND}"
 		)
 ExternalProject_add(stella_libretro
 			GIT_REPOSITORY https://github.com/libretro/stella-libretro.git
