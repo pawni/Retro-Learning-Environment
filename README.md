@@ -1,4 +1,22 @@
 # Retro-Learning-Environment
+
+
+## Quickstart for GB:
+```
+sudo apt-get install libsdl1.2-dev libsdl-gfx1.2-dev libsdl-image1.2-dev cmake
+```
+then clone the repo. Inside do:
+```
+mkdir build
+cd build
+cmake -DUSE_SDL=ON -DBUILD_EXAMPLES=ON -DBUILD_PYTHON=ON -DINSTALL_CORES=OFF  ..
+make -j 4
+cd ..
+./copy_cores.sh
+pip install -e .
+```
+
+## Original Readme:
 A learning framework based on the Arcade Learning Environment (ALE) and Libretro (Stella for Atari and SNES9X for the Super Nintendo Entertainment System).
 
 The environment provides an interface to training and evaluating AI algorithms against different console games using its screen as input.
